@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Damage Detection</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script>
+    function copyJSON() {
+        const pre = document.getElementById('json-pre');
+        if (pre) {
+            navigator.clipboard.writeText(pre.innerText);
+            alert('JSON copied to clipboard!');
+        }
+    }
+    function toggleJSON() {
+        const block = document.getElementById('json-block');
+        const btn = document.getElementById('toggle-json-btn');
+        if (block.style.display === 'none') {
+            block.style.display = 'block';
+            btn.innerText = 'Hide JSON';
+        } else {
+            block.style.display = 'none';
+            btn.innerText = 'Show JSON';
+        }
+    }
+    </script>
+</head>
+<body>
+    <div class="header" style="position:relative;">
+        <h2 style="margin:0;">Car Damage & Parts Detection</h2>
+        <img src="/static/img/logo.png" alt="Logo" class="logo" style="position:absolute; top:18px; right:32px; max-width:110px;">
+    </div>
+    <div class="container">
+        <form method="post" action="/upload" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*" required>
+            <button type="submit">Upload & Analyze</button>
+        </form>
+        {% if error %}<div class="error">{{ error }}</div>{% endif %}
+        {% if result %}
+        <div class="results">
+            <h3>Results</h3>
+            <div class="images-row">
+                <div>
+                    <div class="result-label">Original</div>
+                    <img src="{{ original_image }}" alt="Original Image" class="result-img">
+                </div>
+                {% if result.damage_image is defined and result.damage_image %}
+                <div>
+                    <div class="result-label">Damage Prediction</div>
+                    <img src="{{ result.damage_image }}" alt="Damage Prediction" class="result-img">
+                </div>
+                {% endif %}
+                {% if result.parts_image is defined and result.parts_image %}
+                <div>
+                    <div class="result-label">Parts Prediction</div>
+                    <img src="{{ result.parts_image }}" alt="Parts Prediction" class="result-img">
+                </div>
+                {% endif %}
+            </div>
+            {% if result.json is defined and result.json %}
+                <h4 style="margin-bottom:8px;">JSON Output</h4>
+                <button class="copy-btn" onclick="copyJSON()" type="button">Copy JSON</button>
+                <button class="copy-btn" id="toggle-json-btn" onclick="toggleJSON()" type="button" style="margin-left:10px;">Show JSON</button>
+                <div id="json-block" style="display:none;">
+                    <pre class="json-output" id="json-pre">{{ result.json | tojson(indent=2) }}</pre>
+                </div>
+                <a class="download-btn" href="{{ result.json_download }}" download>Download JSON</a>
+            {% endif %}
+            {% if result.damage_image is defined and result.damage_image %}
+                <a class="download-btn" href="{{ result.damage_image }}" download>Download Damage Image</a>
+            {% endif %}
+            {% if result.parts_image is defined and result.parts_image %}
+                <a class="download-btn" href="{{ result.parts_image }}" download>Download Parts Image</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+    <div class="footer">
+        &copy; {{ 2025 }} RSA/Intact. All rights reserved.
+    </div>
+</body>
+</html>

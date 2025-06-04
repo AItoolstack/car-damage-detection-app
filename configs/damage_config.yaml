@@ -1,0 +1,13 @@
+# Example Detectron2 config for damage model (1 class: damage)
+_BASE_: "COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml"
+MODEL:
+  ROI_HEADS:
+    NUM_CLASSES: 1
+DATASETS:
+  TRAIN: ("damage_train",)
+  TEST: ("damage_val",)
+SOLVER:
+  IMS_PER_BATCH: 2
+  BASE_LR: 0.00025
+  MAX_ITER: 3000
+OUTPUT_DIR: "./weights/damage_model"

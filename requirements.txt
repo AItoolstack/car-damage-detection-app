@@ -1,0 +1,11 @@
+ultralytics
+opencv-python
+numpy
+matplotlib
+fastapi
+uvicorn
+ultralytics
+opencv-python
+numpy
+jinja2
+starlette

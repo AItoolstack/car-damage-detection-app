@@ -1,0 +1,15 @@
+# YAML for YOLOv8 parts segmentation (5 classes)
+path: E:/AI-ToolStack/Cardamagedetection/data/data_yolo_for_training/car_parts_damage_dataset  # Root directory for dataset
+train: images/train  # Train images (relative to 'path')
+val: images/val  # Val images (relative to 'path')
+test: images/test  # Test images (relative to 'path')
+
+# Classes
+names:
+  0: headlamp
+  1: front_bumper
+  2: hood
+  3: door
+  4: rear_bumper
+
+nc: 5  # Number of classes
