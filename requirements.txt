@@ -9,3 +9,4 @@ opencv-python
 numpy
 jinja2
 starlette
+requests
